@@ -1,0 +1,12 @@
+{
+	"name": "CSSFrag",
+	"version": "0.1",
+	"description": "Fork of Shaun Inman 'CSS Selectors as Fragment Identifiers' implementation",
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["cssfrag.js"],
+			"run_at": "document_end"
+		}
+	]
+}
