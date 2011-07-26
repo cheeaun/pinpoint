@@ -1,0 +1,10 @@
+{
+	"extName": {
+		"message": "CSSFrag",
+		"description": "The extension name."
+	},
+	"extDesc": {
+		"message": "Allows linking to any part of a page.",
+		"description": "The extension description."
+	}
+}

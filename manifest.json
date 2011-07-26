@@ -1,7 +1,14 @@
 {
-	"name": "CSSFrag",
-	"version": "0.1",
-	"description": "Fork of Shaun Inman 'CSS Selectors as Fragment Identifiers' implementation",
+	"name": "__MSG_extName__",
+	"version": "0.2",
+	"description": "__MSG_extDesc__",
+	"icons": {
+		"16": "icon16.png",
+		"48": "icon48.png",
+		"128": "icon128.png"
+	},
+	"minimum_chrome_version": "9",
+	"default_locale": "en",
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
