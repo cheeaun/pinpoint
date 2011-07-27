@@ -6,4 +6,4 @@ CSSFrag is a Chrome extension allowing users to share links to any part of a web
 Not Using Chrome?
 -----------------
 
-Check out CSSFrag for [Safari](https://github.com/karanlyons/CSSFrag) and [Firefox](https://github.com/Laurian/CSSFrag).
+Check out CSSFrag for [Safari](https://github.com/karanlyons/CSSFrag), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cssfrag/) ([source](https://github.com/Laurian/CSSFrag)) and [Opera](https://addons.opera.com/addons/extensions/details/cssfrag/) ([source](https://bitbucket.org/hzr/cssfrag)).
