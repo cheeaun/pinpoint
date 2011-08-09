@@ -9,7 +9,7 @@ chrome.contextMenus.create({
 		chrome.tabs.sendRequest(tabID, {}, function(response){
 			if (!response || !response.location || !response.selector) return;
 			var selector = response.selector,
-				fragment = /^#.*/.test(selector) ? selector : ('#css(' + encodeURIComponent(selector) + ')'),
+				fragment = /^#[^>]+/.test(selector) ? selector : ('#css(' + encodeURIComponent(selector) + ')'),
 				url = response.location.split('#')[0] + fragment;
 			// 1. Copy to clipboard
 			$copy.value = url;
