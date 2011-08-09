@@ -1,10 +1,18 @@
 {
 	"extName": {
-		"message": "CSSFrag",
+		"message": "Pinpoint",
 		"description": "The extension name."
 	},
 	"extDesc": {
-		"message": "Allows linking to any part of a page.",
+		"message": "Pinpoint lets you create and share links to specific parts of a page.",
 		"description": "The extension description."
+	},
+	"contextMenuText": {
+		"message": "Create Pin",
+		"description": "The text for the context menu item."
+	},
+	"pinCreatedNotificationText": {
+		"message": "Pin created and copied to clipboard.",
+		"description": "The text for desktop notification when pin is created."
 	}
 }

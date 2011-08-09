@@ -7,12 +7,16 @@
 		"48": "icon48.png",
 		"128": "icon128.png"
 	},
+	"permissions": [
+		"contextMenus", "notifications"
+	],
+	"background_page": "background.html",
 	"minimum_chrome_version": "9",
 	"default_locale": "en",
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["cssfrag.js"],
+			"js": ["pinpoint.js"],
 			"run_at": "document_end"
 		}
 	]

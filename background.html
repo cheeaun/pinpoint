@@ -1,0 +1,41 @@
+<textarea id="copy"></textarea>
+<script>
+var $copy = document.getElementById('copy');
+chrome.contextMenus.create({
+	title: chrome.i18n.getMessage('contextMenuText'),
+	contexts: ['all'],
+	onclick: function(info, tab){
+		var tabID = tab.id;
+		chrome.tabs.sendRequest(tabID, {}, function(response){
+			if (!response || !response.location || !response.selector) return;
+			var selector = response.selector,
+				fragment = /^#.*/.test(selector) ? selector : ('#css(' + encodeURIComponent(selector) + ')'),
+				url = response.location.split('#')[0] + fragment;
+			// 1. Copy to clipboard
+			$copy.value = url;
+			$copy.select();
+			document.execCommand('copy');
+			$copy.value = '';
+			// 2. Notify user that it's copied
+			var notification = webkitNotifications.createNotification(
+				'icon48.png',
+				chrome.i18n.getMessage('pinCreatedNotificationText'),
+				url
+			);
+			notification.onclick = function(){
+				chrome.tabs.update(tabID, {
+					url: url,
+					selected: true
+				}, function(){
+					notification.cancel();
+				});
+			};
+			notification.show();
+			setTimeout(function(){
+				notification.cancel();
+			}, 3000);
+		});
+	}
+});
+
+</script>
