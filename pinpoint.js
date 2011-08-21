@@ -1,14 +1,31 @@
-var Pinpoint = function(){
-	var m = decodeURIComponent(window.location.hash).match(/css\((.+)\)/);
-	if (!m) return;
-	var selector = m[1];
-	var elem = document.querySelector(selector);
-	if (!elem) return;
-	elem.scrollIntoView();
-	elem.focus();
+function highlight(el){
+	var body = document.body,
+		highlight = document.createElement('pinpoint'),
+		rect = el.getBoundingClientRect(),
+		offset = 5;
+	
+	highlight.style.top = (rect.top-offset+body.scrollTop) + 'px';
+	highlight.style.left = (rect.left-offset+body.scrollLeft) + 'px';
+	highlight.style.width = (rect.width+offset*2) + 'px';
+	highlight.style.height = (rect.height+offset*2) + 'px';
+	
+	body.appendChild(highlight);
+	highlight.addEventListener('webkitAnimationEnd', function(){
+		body.removeChild(highlight);
+	}, false);
 };
 
-Pinpoint(); // Chrome runs this on domready
+function Pinpoint(){
+	var m = decodeURIComponent(location.hash).match(/css\((.+)\)/);
+	if (!m) return;
+	var selector = m[1];
+	var el = document.querySelector(selector);
+	if (!el) return;
+	el.scrollIntoViewIfNeeded();
+	highlight(el);
+};
+
+window.addEventListener('load', Pinpoint, false);
 window.addEventListener('hashchange', Pinpoint, false);
 
 var target;
@@ -17,7 +34,7 @@ document.addEventListener('contextmenu', function(e){
 }, false);
 
 // https://github.com/cheeaun/getSelector.js
-var getSelector=function(a){if(!a.querySelector)return function(){};var b=function(b,c){return a.querySelector(b)===c};return function(c){if(c){a!==c.ownerDocument&&(a=c.ownerDocument);var d=c,e="";do{var g=c.tagName;if(!g||/html|body|head/i.test(g))return"";var g=g.toLowerCase(),h=c.id,i=c.className.trim(),k=c.classList||i.split(/\s+/);if(h){var l="#"+h+e;if(b(l,d))return l;l=g+"[id='"+h+"']"+e;if(b(l,d))return l}var m;if(i){for(var n=Infinity,l=0,i=k.length;l<i;l++){var o=k[l],p=a.getElementsByClassName(o).length;p<n&&(n=p,m=o)}l=g+"."+m+e;if(b(l,d))return l;if(h&&(l=g+"[id='"+h+"']."+m+e,b(l,d)))return l}switch(g){case"a":c.getAttribute("href");if(l=c.hash)if(l=g+"[href='"+l+"']"+e,b(l,d))return l;i=c.pathname||"";if(l=(i.match(/\/([^\/]+\.[^\/\.]+)$/i)||[,""])[1])if(l=g+"[href*='"+l+"']"+e,b(l,d))return l;if(l=c.hostname)if(l=g+"[href*='"+l+"']"+e,b(l,d))return l;if(i&&i.length<=50&&(l=g+"[href*='"+i+"']"+e,b(l,d)))return l;break;case"img":i=function(b){var c=a.createElement("a");c.href=b,b=c.pathname,delete c;return b}(c.getAttribute("src"));if(l=(i.match(/\/([^\/]+\.[^\/\.]+)$/i)||[,""])[1])if(l=g+"[src*='"+l+"']"+e,b(l,d))return l;break;case"input":case"button":case"select":case"textarea":if(l=c.getAttribute("name"))if(l=g+"[name='"+l+"']"+e,b(l,d))return l;break;case"label":if(l=c.getAttribute("for"))if(l=g+"[for='"+l+"']"+e,b(l,d))return l}k=c.parentNode.children,n=k.length,o=0,p=!0,l=0;for(i=k.length;l<i;l++){var q=k[l];q===c?o=l+1:q.tagName.toLowerCase()==g&&(p=!1)}if(n>1&&!p){if(e=g+(o==1?":first-child":o==n?":last-child":":nth-child("+o+")")+e,b(e,d))break}else if(h)e=g+"[id='"+h+"']"+e;else if(m)e=g+"."+m+e;else if(e=g+e,b(e,d))break}while((c=c.parentNode)&&(e=">"+e));return e}}}(document)
+var getSelector=function(a){function c(b,c){return a.querySelector(b)===c}function b(a){var b=a.charAt(0),c="";if(/^-+$/.test(a))return"\\-"+a.slice(1);/\d/.test(b)&&(c="\\3"+b+" ",a=a.slice(1)),c+=a.split("").map(function(a){return/[\t\n\v\f]/.test(a)?"\\"+a.charCodeAt().toString(16)+" ":(/[ !"#$%&'()*+,./:;<=>?@\[\\\]^_`{|}~]/.test(a)?"\\":"")+a}).join("");return c}return a.querySelector?function(d){if(d){a!==d.ownerDocument&&(a=d.ownerDocument);var e=d,g="";do{var h=d.tagName;if(!h||/html|body|head/i.test(h))return"";var h=h.toLowerCase(),i=d.id,k=d.className.trim(),l=d.classList||k.split(/\s+/);if(i){var i=b(i),m="#"+i+g;if(c(m,e))return m;m=h+"[id='"+i+"']"+g;if(c(m,e))return m}var n;if(k){for(var p=Infinity,m=0,k=l.length;m<k;m++){var q=l[m],r=a.getElementsByClassName(q).length;r<p&&(p=r,n=b(q))}m=h+"."+n+g;if(c(m,e))return m;if(i&&(m=h+"[id='"+i+"']."+n+g,c(m,e)))return m}switch(h){case"a":d.getAttribute("href");if(m=d.hash)if(m=h+"[href='"+m+"']"+g,c(m,e))return m;k=d.pathname||"";if(m=(k.match(/\/([^\/]+\.[^\/\.]+)$/i)||[,""])[1])if(m=h+"[href*='"+m+"']"+g,c(m,e))return m;if(m=d.hostname)if(m=h+"[href*='"+m+"']"+g,c(m,e))return m;if(k&&k.length<=50&&(m=h+"[href*='"+k+"']"+g,c(m,e)))return m;break;case"img":k=function(b){var c=a.createElement("a");c.href=b;return c.pathname}(d.getAttribute("src"));if(m=(k.match(/\/([^\/]+\.[^\/\.]+)$/i)||[,""])[1])if(m=h+"[src*='"+m+"']"+g,c(m,e))return m;break;case"input":case"button":case"select":case"textarea":if(m=d.getAttribute("name"))if(m=h+"[name='"+m+"']"+g,c(m,e))return m;break;case"label":if(m=d.getAttribute("for"))if(m=h+"[for='"+m+"']"+g,c(m,e))return m}l=d.parentNode.children,p=l.length,q=0,r=!0,m=0;for(k=l.length;m<k;m++){var s=l[m];s===d?q=m+1:s.tagName.toLowerCase()==h&&(r=!1)}if(p>1&&!r){if(g=h+(q==1?":first-child":q==p?":last-child":":nth-child("+q+")")+g,c(g,e))break}else if(i)g=h+"[id='"+i+"']"+g;else if(n)g=h+"."+n+g;else if(g=h+g,c(g,e))break}while((d=d.parentNode)&&(g=">"+g));return g}}:function(){}}(document)
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
 	if (!target) return;
@@ -25,4 +42,5 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
 		location: location.href,
 		selector: getSelector(target)
 	});
+	highlight(target);
 });

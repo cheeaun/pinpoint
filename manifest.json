@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_extName__",
-	"version": "0.2",
+	"version": "0.3",
 	"description": "__MSG_extDesc__",
 	"icons": {
 		"16": "icon16.png",
@@ -17,6 +17,7 @@
 		{
 			"matches": ["<all_urls>"],
 			"js": ["pinpoint.js"],
+			"css": ["pinpoint.css"],
 			"run_at": "document_end"
 		}
 	]

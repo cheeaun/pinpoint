@@ -1,0 +1,19 @@
+pinpoint{
+	pointer-events: none;
+	position: absolute;
+	z-index: 9999999999;
+	overflow: hidden;
+	outline: 2px solid invert;
+	-webkit-outline-radius: 3px;
+	outline-radius: 3px;
+	opacity: 0;
+	-webkit-animation: pinpoint-highlight 2s linear;
+}
+
+@-webkit-keyframes pinpoint-highlight{
+	0% { opacity: 0 }
+	25% { opacity: 1 }
+	50% { opacity: 0 }
+	75% { opacity: 1 }
+	100% { opacity: 0 }
+}
